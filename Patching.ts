@@ -174,53 +174,6 @@ const Server = http.createServer(
           }
         }
         // DELETE METHOD
-
-        if (method === "DELETE") {
-          const build = JSON.parse(Container);
-
-          let details: any = url?.split("/")[2];
-          let datavalue = parseInt(details);
-
-          let findobject = Data.filter((el) => {
-            return el.id === datavalue;
-          });
-
-          if (findobject !== true) {
-            Status = 404;
-
-            (response.message = "User not Found"),
-              (response.data = null),
-              (response.success = false);
-
-            resp.write(JSON.stringify({ response, Status }));
-
-            resp.end();
-          } else {
-            const updateusername = build.name;
-
-            Data = Data.filter((user: any) => {
-              if (user?.id === datavalue) {
-                return {
-                  id: user?.id,
-                  name: updateusername,
-                  age: user?.age,
-                };
-              }
-
-              return user;
-            });
-
-            Status = 200;
-
-            (response.message = "User Updated"),
-              (response.data = Data),
-              (response.success = true);
-
-            resp.write(JSON.stringify({ response, Status }));
-
-            resp.end();
-          }
-        }
       });
   }
 );
