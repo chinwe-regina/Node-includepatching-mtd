@@ -1,6 +1,6 @@
 import http, { ServerResponse, IncomingMessage } from "http";
 
-const port = 2000;
+const port = 4000;
 interface iMassege {
   message: string;
   data: null | [] | {}[];
@@ -34,7 +34,7 @@ let Data: iData[] = [
     age: 19,
   },
 ];
-const Server = http.createServer(
+const App = http.createServer(
   (req: IncomingMessage, resp: ServerResponse<IncomingMessage>) => {
     resp.setHeader("content-Type", "application/json");
 
@@ -174,10 +174,57 @@ const Server = http.createServer(
           }
         }
         // DELETE METHOD
+
+        if (method === "DELETE") {
+          const build = JSON.parse(Container);
+
+          let details: any = url?.split("/")[2];
+          let datavalue = parseInt(details);
+
+          let findobject = Data.filter((el) => {
+            return el.id === datavalue;
+          });
+
+          if (findobject === false) {
+            Status = 404;
+
+            (response.message = "User not Found"),
+              (response.data = null),
+              (response.success = false);
+
+            resp.write(JSON.stringify({ response, Status }));
+
+            resp.end();
+          } else {
+            const updateusername = build.name;
+
+            Data = Data.filter((user: any) => {
+              if (user?.id !== datavalue) {
+                return {
+                  id: user?.id,
+                  name: updateusername,
+                  age: user?.age,
+                };
+              }
+
+              return user;
+            });
+
+            Status = 200;
+
+            (response.message = "User Updated"),
+              (response.data = Data),
+              (response.success = true);
+
+            resp.write(JSON.stringify({ response, Status }));
+
+            resp.end();
+          }
+        }
       });
   }
 );
 
-Server.listen(port, () => {
-  console.log("server is up and running");
+App.listen(port, () => {
+  console.log("the port is listen to port:${port}");
 });
