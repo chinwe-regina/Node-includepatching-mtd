@@ -178,7 +178,7 @@ const App = http.createServer(
         if (method === "DELETE") {
           const build = JSON.parse(Container);
 
-          let details: any = url?.split("/")[2];
+          let details: any = url?.split("/")[1];
           let datavalue = parseInt(details);
 
           let findobject = Data.filter((el) => {
@@ -197,13 +197,14 @@ const App = http.createServer(
             resp.end();
           } else {
             const updateusername = build.name;
+            const updateage = build.age;
 
             Data = Data.filter((user: any) => {
               if (user?.id !== datavalue) {
                 return {
                   id: user?.id,
                   name: updateusername,
-                  age: user?.age,
+                  age: updateage,
                 };
               }
 
