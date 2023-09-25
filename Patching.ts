@@ -178,7 +178,7 @@ const App = http.createServer(
         if (method === "DELETE") {
           const build = JSON.parse(Container);
 
-          let details: any = url?.split("/")[1];
+          let details: any = url?.split("/")[2];
           let datavalue = parseInt(details);
 
           let findobject = Data.filter((el) => {
